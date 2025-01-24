@@ -1,0 +1,89 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+/**
+ * React Native Configuration Block
+ */
+react {
+    /* Autolinking */
+    autolinkLibrariesWithApp()
+}
+
+/**
+ * Proguard Configuration for Release Builds
+ */
+def enableProguardInReleaseBuilds = false
+
+/**
+ * JavaScriptCore (JSC) Flavor
+ */
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace "com.craveon"
+    defaultConfig {
+        applicationId "com.craveon"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file("C:/projects/React Native/CraveOn/android/app/my-release-key.jks")
+            storePassword "123456" 
+            keyAlias "my-key-alias"
+            keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    // React Native core dependencies
+    implementation("com.facebook.react:react-android")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+    implementation project(':react-native-vector-icons')
+
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+}
+
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+apply plugin: 'com.google.gms.google-services'
+
+
+tasks.whenTaskAdded { task ->
+    if (task.name == "generateDebugLintReportModel") {
+        task.dependsOn "copyReactNativeVectorIconFonts"
+    }
+    if (task.name == "lintAnalyzeDebug") {
+        task.dependsOn "copyReactNativeVectorIconFonts"
+    }
+}

@@ -1,0 +1,23 @@
+const ImageMap = {
+  'beefburger.jpg': require('../assets/beefburger.jpg'),
+  'burrito.jpg': require('../assets/burrito.jpg'),
+  'cheeseburger.jpg': require('../assets/cheeseburger.jpg'),
+  'cheesepizza.jpg': require('../assets/cheesepizza.jpg'),
+  'chickenwraps.jpeg': require('../assets/chickenwraps.jpeg'),
+  'colddrink.jpg': require('../assets/colddrink.jpg'),
+  'donuts.jpg': require('../assets/donuts.jpg'),
+  'frenchfries.jpg': require('../assets/frenchfries.jpg'),
+  'friedchicken.jpg': require('../assets/friedchicken.jpg'),
+  'hamburger.jpg': require('../assets/hamburger.jpg'),
+  'hotdog.jpg': require('../assets/hotdog.jpg'),
+  'milkshake.jpg': require('../assets/milkshake.jpg'),
+  'muffins.jpg': require('../assets/muffins.jpg'),
+  'noodles.png': require('../assets/noodles.png'),
+  'onionrings.jpg': require('../assets/onionrings.jpg'),
+  'sandwich.jpg': require('../assets/sandwich.jpg'),
+  'spicychicken.jpg': require('../assets/spicychicken.jpg'),
+  'tacos.jpg': require('../assets/tacos.jpg'),
+  'veggie.jpg': require('../assets/veggie.jpg'),
+  'veggiesalad.jpg': require('../assets/veggiesalad.jpg'),
+};
+export default ImageMap;

@@ -1,0 +1,142 @@
+[
+  {
+    "Id": 1,
+    "name": "Smokin' Beef Bliss",
+    "image": "beefburger.jpg",
+    "price": 980,
+    "description": "A juicy beef patty, char-grilled to perfection, with smoky flavors that melt in every bite."
+  },
+  {
+    "Id": 2,
+    "name": "Wrap 'N' Roll Burrito",
+    "image": "burrito.jpg",
+    "price": 349,
+    "description": "Packed with bold flavors and a medley of fresh ingredients, all wrapped up for a taste fiesta in every bite!"
+  },
+  {
+    "Id": 3,
+    "name": "Cheesy Dream Burger",
+    "image": "cheeseburger.jpg",
+    "price": 656,
+    "description": "Loaded with melted cheese over a succulent beef patty – pure, gooey goodness in every mouthful!"
+  },
+  {
+    "Id": 4,
+    "name": "Melted Magic Pizza",
+    "image": "cheesepizza.jpg",
+    "price": 1499,
+    "description": "A crispy crust topped with layers of gooey, golden cheese – the ultimate slice of cheesy heaven!"
+  },
+  {
+    "Id": 5,
+    "name": "Zesty Chicken Wrap",
+    "image": "chickenwraps.jpeg",
+    "price": 699,
+    "description": "Tender chicken with crisp veggies, wrapped in soft bread and bursting with bold, tangy flavors!"
+  },
+  {
+    "Id": 6,
+    "name": "Chill Splash",
+    "image": "colddrink.jpg",
+    "price": 249,
+    "description": "A refreshing burst of icy coolness that keeps you energized and refreshed with every sip!"
+  },
+  {
+    "Id": 7,
+    "name": "Sweet Rings Delight",
+    "image": "donuts.jpg",
+    "price": 350,
+    "description": "Soft, fluffy, and glazed to perfection – a blissful bite of sweetness in every ring!"
+  },
+  {
+    "Id": 8,
+    "name": "Golden Crunch Fries",
+    "image": "frenchfries.jpg",
+    "price": 300,
+    "description": "Crispy on the outside, fluffy on the inside – the perfect savory snack for every craving!"
+  },
+  {
+    "Id": 9,
+    "name": "Crispy Cluck",
+    "image": "friedchicken.jpg",
+    "price": 999,
+    "description": "Juicy chicken wrapped in a golden, crunchy coating – a deliciously satisfying bite every time!"
+  },
+  {
+    "Id": 10,
+    "name": "Classic Smash Burger",
+    "image": "hamburger.jpg",
+    "price": 579,
+    "description": "A perfectly grilled patty, nestled between soft buns with fresh toppings – a timeless bite of pure satisfaction!"
+  },
+  {
+    "Id": 11,
+    "name": "Sizzle Dog",
+    "image": "hotdog.jpg",
+    "price": 980,
+    "description": "A juicy sausage in a soft bun, topped with savory condiments – a classic snack that hits the spot every time!"
+  },
+  {
+    "Id": 12,
+    "name": "Berry Bliss Shake",
+    "image": "milkshake.jpg",
+    "price": 490,
+    "description": "Creamy and smooth, this strawberry milkshake is a sweet, fruity indulgence in every sip!"
+  },
+  {
+    "Id": 13,
+    "name": "Fluffy Delight Muffins",
+    "image": "muffins.jpg",
+    "price": 750,
+    "description": "Soft, warm, and bursting with flavor – these muffins are a perfect treat for any moment of the day!"
+  },
+  {
+    "Id": 14,
+    "name": "Sizzling Noodle Twirl",
+    "image": "noodles.png",
+    "price": 399,
+    "description": "A hearty bowl of perfectly cooked noodles tossed in savory sauces, delivering a burst of flavor in every bite!"
+  },
+  {
+    "Id": 15,
+    "name": "Crispy Onion Rings",
+    "image": "onionrings.jpg",
+    "price": 549,
+    "description": "Golden, crunchy, and irresistibly savory – the perfect snack for satisfying your crispy cravings!"
+  },
+  {
+    "Id": 16,
+    "name": "Stacked Supreme Sandwich",
+    "image": "sandwich.jpg",
+    "price": 899,
+    "description": "Fresh ingredients stacked between soft bread, delivering layers of flavor in every bite!"
+  },
+  {
+    "Id": 17,
+    "name": "Fiery Cluck",
+    "image": "spicychicken.jpg",
+    "price": 650,
+    "description": "Tender chicken with a bold, spicy kick – a sizzling, flavorful treat for those who crave heat!"
+  },
+  {
+    "Id": 18,
+    "name": "Taco Fiesta",
+    "image": "tacos.jpg",
+    "price": 389,
+    "description": "Soft tortillas filled with seasoned meat and fresh toppings – a vibrant explosion of flavors in every bite!"
+  },
+  {
+    "Id": 19,
+    "name": "Garden Bliss",
+    "image": "veggie.jpg",
+    "price": 700,
+    "description": "A colorful mix of fresh, crisp veggies – a wholesome and refreshing burst of natural goodness!"
+  },
+  {
+    "Id": 20,
+    "name": "Vibrant Veggie Bowl",
+    "image": "veggiesalad.jpg",
+    "price": 250,
+    "description": "A refreshing medley of crisp veggies, tossed in a light dressing – a healthy, vibrant bite full of flavor!"
+  }
+]
