@@ -5,18 +5,17 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 
-
 import firestore from '@react-native-firebase/firestore';
-
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignIn = async () => {
@@ -24,21 +23,22 @@ const SignIn = ({navigation}) => {
       Alert.alert('Error', 'Please enter all fields');
       return;
     }
+    setIsLoading(true);
     try {
-      const userCredential = await auth().signInWithEmailAndPassword(email, password); // Define userCredential
+      const userCredential = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      ); // Define userCredential
 
-      const userId = userCredential.user.uid; 
+      const userId = userCredential.user.uid;
 
       const userDoc = await firestore().collection('Users').doc(userId).get();
       if (userDoc.exists) {
         // console.log('User data:', userDoc.data());
       }
 
-
       navigation.replace('DrawerNavigator');
     } catch (error) {
-
-
       if (error.code === 'auth/user-not-found') {
         setErrorMessage('No account found with this email.');
       } else if (error.code === 'auth/wrong-password') {
@@ -48,6 +48,8 @@ const SignIn = ({navigation}) => {
       } else {
         setErrorMessage('Something went wrong. Please try again.');
       }
+    } finally {
+      setIsLoading(false); // Set loading to false once the process is complete
     }
   };
 
@@ -72,10 +74,14 @@ const SignIn = ({navigation}) => {
         style={styles.email}
         importantForAutofill="yes"
       />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#ff5723" style={styles.loader} />
+      ) : (
+        <TouchableOpacity style={styles.accountbtn} onPress={handleSignIn}>
+          <Text style={styles.accounttext}>Sign In</Text>
+        </TouchableOpacity>
+      )}
 
-      <TouchableOpacity style={styles.accountbtn} onPress={handleSignIn}>
-        <Text style={styles.accounttext}>Sign In</Text>
-      </TouchableOpacity>
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>
       ) : null}
@@ -141,5 +147,8 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginVertical: 10,
+  },
+  loader: {
+    marginTop: 20,
   },
 });

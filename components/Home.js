@@ -5,6 +5,7 @@ import {
   View,
   BackHandler,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import MenuItem from './MenuItem';
@@ -111,9 +112,21 @@ const Home = ({navigation}) => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading products...</Text>
-      </View>
+      // <View style={styles.loadingContainer}>
+      //   <Text>Loading products...</Text>
+      // </View>
+      <>
+        <View style={styles.loaderView}>
+          <Text style={styles.loadertext}>
+            Please wait products and fetching
+          </Text>
+          <ActivityIndicator
+            size="large"
+            color="#ff5723"
+            style={styles.loader}
+          />
+        </View>
+      </>
     );
   }
 
@@ -122,7 +135,10 @@ const Home = ({navigation}) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.toggleDrawer()}
+            onPress={() => {
+              console.log('Menu icon clicked');
+              navigation.toggleDrawer();
+            }}
             style={styles.menuIconContainer}>
             <Icon name="menu" size={30} color="#333" />
           </TouchableOpacity>
@@ -191,6 +207,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     flex: 1,
     justifyContent: 'space-between',
+    // alignItems:"center"
   },
   header: {
     flexDirection: 'row',
@@ -279,5 +296,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  loaderView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadertext: {
+    fontWeight: '500',
+  },
+  loader: {
+    marginTop: 20,
   },
 });

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -18,12 +19,15 @@ const SignUp = ({navigation}) => {
   const [address, setAddress] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!name || !address || !mobileNumber || !email || !password) {
       Alert.alert('Error', 'Please enter all fields');
       return;
     }
+    setIsLoading(true); // Start loading indicator
+
     try {
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
@@ -46,11 +50,13 @@ const SignUp = ({navigation}) => {
             creditcard: {},
             bank: {},
             paypal: {},
-          }, 
+          },
         });
 
+      setIsLoading(false);
       navigation.navigate('SignIn');
     } catch (error) {
+      setIsLoading(false);
       if (error.code === 'auth/email-already-in-use') {
         setErrorMessage('This email address is already in use.');
       } else if (error.code === 'auth/invalid-email') {
@@ -102,11 +108,13 @@ const SignUp = ({navigation}) => {
         secureTextEntry
         style={styles.input}
       />
-
-      <TouchableOpacity style={styles.accountbtn} onPress={handleSignUp}>
-        <Text style={styles.accounttext}>Create Account</Text>
-      </TouchableOpacity>
-
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#ff5723" style={styles.loader} />
+      ) : (
+        <TouchableOpacity style={styles.accountbtn} onPress={handleSignUp}>
+          <Text style={styles.accounttext}>Create Account</Text>
+        </TouchableOpacity>
+      )}
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>
       ) : null}
@@ -174,5 +182,8 @@ export const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginVertical: 10,
+  },
+  loader: {
+    marginTop: 20,
   },
 });

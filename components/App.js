@@ -1,4 +1,12 @@
-import {StyleSheet, View,BackHandler, Alert} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  BackHandler,
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Home from './Home';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'; /////
@@ -9,7 +17,11 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Cart from './Cart';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'; /////
 import {NavigationContainer, useNavigation} from '@react-navigation/native'; /////
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
 import SplashScreen from './SplashScreen';
 import ProductDetails from './ProductDetails';
@@ -84,12 +96,53 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const DrawerNavigator = () => {
-
+const CustomDrawerContent = props => {
   const navigation = useNavigation();
 
+  const handleSignOut = () => {
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Sign Out',
+          onPress: () => {
+            // Clear user data or token here (if required)
+            navigation.replace('SignIn'); // Navigate to SignIn screen
+          },
+        },
+      ],
+      {cancelable: true},
+    );
+  };
 
+  return (
+    <View style={styles.drawerContent}>
+      {/* Logo and Tagline */}
+      <View style={styles.logoContainer}>
+        <Image
+          source={require('../assets/22.png')} // Replace with your logo's path
+          style={styles.logo}
+        />
+        <Text style={styles.tagline}>
+          Fuel Your Cravings, Anytime, Anywhere!
+        </Text>
+      </View>
+
+      {/* Default Drawer Items */}
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+      {/* Sign Out Button */}
+      <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+        <Text style={styles.signOutText}>Sign Out</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+const DrawerNavigator = () => {
+  const navigation = useNavigation();
 
   useEffect(() => {
     const backAction = () => {
@@ -118,17 +171,42 @@ const DrawerNavigator = () => {
     return () => backHandler.remove();
   }, [navigation]);
 
-
-
-  
   return (
     <Drawer.Navigator
+      drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
         drawerStyle: {backgroundColor: '#ffffff'},
         drawerActiveTintColor: '#ff5723',
         drawerInactiveTintColor: '#000000',
-      }}>
+      }}
+
+      //  drawerContent={() => (
+      //   <View style={styles.drawerContent}>
+      //     {/* Logo and Tagline */}
+      //     <View style={styles.logoContainer}>
+      //       <Image
+      //         source={require('../assets/logo.png')} // Replace with your logo's path
+      //         style={styles.logo}
+      //       />
+      //       <Text style={styles.tagline}>
+      //         Fuel Your Cravings, Anytime, Anywhere!
+      //       </Text>
+      //     </View>
+
+      //     {/* Drawer Items */}
+      //     <TouchableOpacity onPress={() => navigation.navigate('TabNavigator')}>
+      //       <Text style={styles.drawerItem}>Dashboard</Text>
+      //     </TouchableOpacity>
+      //     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+      //       <Text style={styles.drawerItem}>Profile</Text>
+      //     </TouchableOpacity>
+      //     <TouchableOpacity onPress={() => navigation.navigate('History')}>
+      //       <Text style={styles.drawerItem}>History</Text>
+      //     </TouchableOpacity>
+      //   </View>
+      // )}
+    >
       <Drawer.Screen
         name="TabNavigator"
         component={TabNavigator}
@@ -213,4 +291,50 @@ const App = () => {
 
 export default App;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  drawerContent: {
+    flex: 1,
+    paddingTop: 50,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 150, // Adjust the size of the logo
+    height: 150, // Adjust the size of the logo
+    resizeMode: 'contain',
+    backgroundColor: '#ffffff',
+    alignSelf: 'center',
+    borderRadius: 90,
+    elevation: 3,
+    marginBottom:10,
+    padding:0
+  },
+  tagline: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#ff5723',
+    fontWeight: 'bold',
+  },
+  drawerItem: {
+    fontSize: 16,
+    paddingVertical: 15,
+    color: '#333',
+  },
+  signOutButton: {
+    marginTop: 'auto', // Places it at the bottom
+    paddingVertical: 15,
+    alignItems: 'center',
+    backgroundColor: '#ff5723',
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  signOutText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});

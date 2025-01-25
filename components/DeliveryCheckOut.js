@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import {Snackbar} from 'react-native-paper';
@@ -19,25 +20,26 @@ const DeliveryCheckOut = ({navigation, route}) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // const [snackbarVisible, setSnackbarVisible] = useState(false);
   // const [snackbarMessage, setSnackbarMessage] = useState('');
   const {total} = route.params;
 
-
-
-
-  const generateOrderNumber = () => Math.floor(Math.random() * 1000);
+  const generateOrderNumber = () => Math.floor(Math.random() * 1000000);
 
   const handleOrders = () => {
     if (name && address && phone) {
       const orderNumber = generateOrderNumber();
 
+      setLoading(true);
+
       setOrderData(orderNumber, total);
 
-      navigation.navigate('Order');
-      // setSnackbarMessage('Order accepted. Estimated delivery in 30 minutes.');
-      // setSnackbarVisible(true);
+      setTimeout(() => {
+        setLoading(false); // Stop loader after some delay (simulating a request)
+        navigation.navigate('Order');
+      }, 2000);
     } else {
       alert('Please fill in all the fields');
     }
@@ -97,9 +99,14 @@ const DeliveryCheckOut = ({navigation, route}) => {
           <Text style={styles.totaltext}>Total</Text>
           <Text style={styles.totalamount}>{total}</Text>
         </View>
-        <TouchableOpacity style={styles.paymentbtn} onPress={handleOrders}>
-          <Text style={styles.paymentbtntext}>Proceed to payment</Text>
-        </TouchableOpacity>
+
+        {loading ? ( // Show loader when loading is true
+          <ActivityIndicator size="large" color="#ff5723" />
+        ) : (
+          <TouchableOpacity style={styles.paymentbtn} onPress={handleOrders}>
+            <Text style={styles.paymentbtntext}>Proceed to payment</Text>
+          </TouchableOpacity>
+        )}
       </View>
       {/* <Snackbar
         visible={snackbarVisible}

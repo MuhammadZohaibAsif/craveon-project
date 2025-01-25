@@ -134,19 +134,19 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: 'absolute',
-    top: 5,
     right: 5,
+    top: 5,
     backgroundColor: '#ff5723',
-    width: 20,
-    height: 20,
     borderRadius: 10,
+    width: 18,
+    height: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },
   badgeText: {
     color: 'white',
     fontSize: 12,
-    fontWeight:'bold'
+    fontWeight: 'bold',
   },
   backbutton: {
     color: '#333',

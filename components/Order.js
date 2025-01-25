@@ -22,7 +22,10 @@ const Order = ({navigation}) => {
 
   // const [showCompleteOrderButton, setShowCompleteOrderButton] = useState(false);
   const [showContinueOrderButton, setShowContinueOrderButton] = useState(false);
-  const {orderDetails, updateCart, clearOrderDetails} = useContext(CartContext);
+  const {orderDetails, updateCart, clearOrderDetails, getTotalCartItems} =
+    useContext(CartContext);
+
+  const cartItemCount = getTotalCartItems();
 
   const orderNumber = orderDetails?.orderNumber;
   const total = orderDetails?.total;
@@ -91,14 +94,24 @@ const Order = ({navigation}) => {
         </TouchableOpacity>
         <Text style={styles.title}>Orders</Text>
         <TouchableOpacity
-         onPress={()=>navigation.navigate("Cart")}
+          onPress={() => navigation.navigate('Cart')}
           style={styles.cartContainer}>
           <Iconshoping name="shoppingcart" size={28} color="#333" />
+          {cartItemCount > 0 && ( // Show badge only if cart has items
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{cartItemCount}</Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
       {orderedItems.length === 0 ? (
         <View style={styles.content}>
-          <Icon name="shopping-bag-1" size={90} color="#b8b7b4" style={styles.icon} />
+          <Icon
+            name="shopping-bag-1"
+            size={90}
+            color="#b8b7b4"
+            style={styles.icon}
+          />
           <Text style={styles.nocontentarea}>No orders yet</Text>
           <Text style={styles.description}>
             Hit the "Home" icon down below to Create an order
@@ -205,10 +218,26 @@ const styles = StyleSheet.create({
   },
   cartContainer: {
     position: 'absolute', // To make it left-aligned
-    right: -5,
-    top: -1.5,
+    right: -5.5,
+    top: -0.5,
     // paddingRight: 10,
     // paddingBottom: 25,
+  },
+  badge: {
+    position: 'absolute',
+    right: -5,
+    top: -5,
+    backgroundColor: '#ff5723',
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   backbutton: {
     fontSize: 24,
