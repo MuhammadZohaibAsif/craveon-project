@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 25,
     flex: 1,
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    marginTop: 220,
+    marginTop: 240,
     alignItems: 'center',
   },
   icon: {

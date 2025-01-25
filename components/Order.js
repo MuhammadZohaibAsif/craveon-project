@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import CartContext from './CartContext';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Fontisto';
 import Iconmenu from 'react-native-vector-icons/Entypo';
 import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
 import {ScrollView} from 'react-native-gesture-handler';
@@ -98,7 +98,7 @@ const Order = ({navigation}) => {
       </View>
       {orderedItems.length === 0 ? (
         <View style={styles.content}>
-          <Icon name="heart" size={90} color="#b8b7b4" style={styles.icon} />
+          <Icon name="shopping-bag-1" size={90} color="#b8b7b4" style={styles.icon} />
           <Text style={styles.nocontentarea}>No orders yet</Text>
           <Text style={styles.description}>
             Hit the "Home" icon down below to Create an order
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    marginTop: 220,
+    marginTop: 240,
     marginBottom: 240,
     alignItems: 'center',
   },

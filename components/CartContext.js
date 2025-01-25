@@ -109,9 +109,11 @@ export const CartProvider = ({children}) => {
 
   const clearOrderDetails = () => {
     setOrderDetails({}); // Reset orderDetails to empty
-};
+  };
 
-
+  const getTotalCartItems = () => {
+    return cartitem.length // Total quantity calculate
+  };
   return (
     <CartContext.Provider
       value={{
@@ -119,6 +121,7 @@ export const CartProvider = ({children}) => {
         cartitem,
         updateQuantity,
         updateCart,
+        getTotalCartItems,
         calculateTotal,
         setOrderData,
         orderDetails,
@@ -126,7 +129,7 @@ export const CartProvider = ({children}) => {
         favoriteItems, // Exposing favoriteItems
         toggleFavorite, // Exposing toggleFavorite function
         isFavorite, // Exposing isFavorite function
-        clearOrderDetails
+        clearOrderDetails,
       }}>
       {children}
     </CartContext.Provider>

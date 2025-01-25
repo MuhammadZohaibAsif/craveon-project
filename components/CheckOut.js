@@ -156,7 +156,7 @@ const CheckOut = ({navigation, route}) => {
       // .set(details)
       .then(() => {
         console.log(`${paymentMethod} details saved successfully`);
-        alert('Payment details saved successfully.');
+        // alert('Payment details saved successfully.');
         // color = '#000000';
       })
       .catch(error => {

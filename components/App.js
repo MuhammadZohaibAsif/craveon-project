@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View,BackHandler, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Home from './Home';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'; /////
@@ -86,6 +86,41 @@ const TabNavigator = () => {
 };
 
 const DrawerNavigator = () => {
+
+  const navigation = useNavigation();
+
+
+
+  useEffect(() => {
+    const backAction = () => {
+      if (navigation.canGoBack()) {
+        navigation.navigate('TabNavigator'); // Home screen under TabNavigator
+        return true; // Stop default behavior
+      } else {
+        Alert.alert(
+          'Exit App',
+          'Are you sure you want to exit?',
+          [
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'Exit', onPress: () => BackHandler.exitApp()},
+          ],
+          {cancelable: true},
+        );
+        return true;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
+
+
+
+  
   return (
     <Drawer.Navigator
       screenOptions={{

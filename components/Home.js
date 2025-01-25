@@ -6,11 +6,11 @@ import {
   BackHandler,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import MenuItem from './MenuItem';
 import Icon from 'react-native-vector-icons/Entypo';
 import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
-
+import CartContext from './CartContext';
 
 // import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import {FlatList} from 'react-native-gesture-handler';
@@ -18,6 +18,9 @@ import {Snackbar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {useIsFocused} from '@react-navigation/native';
 const Home = ({navigation}) => {
+  const {getTotalCartItems} = useContext(CartContext); // Accessing cart item count
+  const cartItemCount = getTotalCartItems();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,10 +55,9 @@ const Home = ({navigation}) => {
 
     const backAction = () => {
       if (isFocused) {
-        // Only apply back button logic when on Home screen
         if (backPressedOnce) {
           BackHandler.exitApp(); // Close the app if back button is pressed twice on Home
-          return false;
+          return true;
         } else {
           setBackPressedOnce(true);
           setsnakebarMessage('Press back again to exit');
@@ -63,10 +65,10 @@ const Home = ({navigation}) => {
           setTimeout(() => setBackPressedOnce(false), 2000); // Reset the flag after 2 seconds
           return true; // Prevent default back button behavior
         }
+      } else {
+        navigation.navigate('Home'); // Always go to Home when Back button is pressed
+        return true;
       }
-      // For other screens, use default behavior to navigate back in the stack
-      navigation.goBack(); // This will take the user back to the previous screen
-      return true; // Prevent default behavior (which would exit the app)
     };
 
     const backHandler = BackHandler.addEventListener(
@@ -119,14 +121,22 @@ const Home = ({navigation}) => {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={()=>navigation.toggleDrawer()}
-             style={styles.menuIconContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.toggleDrawer()}
+            style={styles.menuIconContainer}>
             <Icon name="menu" size={30} color="#333" />
           </TouchableOpacity>
           <Text style={styles.title}>Our Menu</Text>
-          <TouchableOpacity onPress={()=>navigation.navigate("Cart")}
-             style={styles.cartContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Cart')}
+            style={styles.cartContainer}>
             <Iconshoping name="shoppingcart" size={28} color="#333" />
+
+            {cartItemCount > 0 && ( // Show badge only if cart has items
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{cartItemCount}</Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
         {/* <View style={styles.swipecontainer}>
@@ -193,14 +203,30 @@ const styles = StyleSheet.create({
     left: 10,
     // top: 10,
     padding: 10,
-    paddingBottom:25
+    paddingBottom: 25,
   },
   cartContainer: {
     position: 'absolute', // To make it left-aligned
     right: 10,
     // top: 10,
     padding: 10,
-    paddingBottom:25
+    paddingBottom: 25,
+  },
+  badge: {
+    position: 'absolute',
+    right: 5,
+    top: 5,
+    backgroundColor: '#ff5723',
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   backbutton: {
     marginRight: 10,

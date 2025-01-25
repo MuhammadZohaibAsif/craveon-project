@@ -15,7 +15,9 @@ import Icon2 from 'react-native-vector-icons/AntDesign';
 import CartContext from './CartContext';
 
 const Favourits = ({navigation}) => {
-  const {addToCart, favoriteItems, toggleFavorite} = useContext(CartContext);
+  const {addToCart, favoriteItems, toggleFavorite, getTotalCartItems} =
+    useContext(CartContext);
+  const cartItemCount = getTotalCartItems(); // Get the cart item count
 
   const handleHistory = () => {
     navigation.navigate('MyProfile'); // Move navigation here to avoid the warning
@@ -66,10 +68,16 @@ const Favourits = ({navigation}) => {
         </TouchableOpacity>
 
         <Text style={styles.title}>Favourites</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate("Cart")}
-             style={styles.cartContainer}>
-            <Iconshoping name="shoppingcart" size={28} color="#333" />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Cart')}
+          style={styles.cartContainer}>
+          <Iconshoping name="shoppingcart" size={28} color="#333" />
+          {cartItemCount > 0 && ( // Show badge only if cart has items
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{cartItemCount}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
 
       {favoriteItems.length > 0 ? (
@@ -123,6 +131,22 @@ const styles = StyleSheet.create({
     // top: 10,
     padding: 10,
     // paddingBottom:25
+  },
+  badge: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#ff5723',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight:'bold'
   },
   backbutton: {
     color: '#333',
