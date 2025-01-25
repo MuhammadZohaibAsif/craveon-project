@@ -10,6 +10,8 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import Iconmenu from 'react-native-vector-icons/Entypo';
+
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/FontAwesome';
 import firestore from '@react-native-firebase/firestore';
@@ -47,10 +49,10 @@ const History = ({navigation}) => {
       Alert.alert('No Orders', 'There are no orders to complete.');
       return;
     }
-  
+
     try {
       const userId = auth().currentUser.uid;
-  
+
       const orderData = {
         orderNumber: orderNumber || 'Unknown',
         total: total || 0,
@@ -61,28 +63,30 @@ const History = ({navigation}) => {
           quantity: item.quantity,
         })),
       };
-  
+
       // Save to Firebase
-      await firestore().collection('Users').doc(userId).update({
-        history: firestore.FieldValue.arrayUnion(orderData),
-      });
-  
+      await firestore()
+        .collection('Users')
+        .doc(userId)
+        .update({
+          history: firestore.FieldValue.arrayUnion(orderData),
+        });
+
       // Clear cart in CartContext
       updateCart([]); // Reset cart items
-  
+
       // Navigate to History and reset stack
       navigation.reset({
         index: 0,
-        routes: [{ name: 'History' }],
+        routes: [{name: 'History'}],
       });
-  
+
       Alert.alert('Success', 'Order completed and added to history.');
     } catch (error) {
       console.error('Error updating order history:', error);
       Alert.alert('Error', 'Failed to complete the order. Please try again.');
     }
   };
-  
 
   const handleDeleteOrder = async orderNumber => {
     try {
@@ -171,14 +175,17 @@ const History = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="left" size={26} color="black" style={styles.backbutton} />
+        <TouchableOpacity
+          style={styles.menuIconContainer}
+          onPress={() => navigation.toggleDrawer()}>
+          <Iconmenu name="menu" size={30} color="#333" />
         </TouchableOpacity>
         {/* <Text style={styles.backbutton}>{'<'}</Text> */}
         <Text style={styles.title}>History</Text>
 
         {history.length > 0 && (
           <TouchableOpacity
+          style={styles.trashiconcontainer}
             onPress={() =>
               Alert.alert(
                 'Clear History',
@@ -263,8 +270,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 19,
-    marginBottom: 30,
+    // marginTop: 19,
+    marginBottom: 40,
+    // backgroundColor:"green"
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: -4.05,
+    top: -1.5,
+    // paddingRight: 10,
+    // paddingBottom: 25,
+  },
+  trashiconcontainer:{
+    position: 'absolute', // To make it left-aligned
+    right: -4.05,
+    top: 4,
+    // paddingRight: 10,
+    // paddingBottom: 25,
   },
   backbutton: {
     color: '#333',
@@ -276,6 +298,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 90,
     fontSize: 20,
     fontWeight: 'bold',
+    paddingBottom:2
   },
   content: {
     flex: 1,

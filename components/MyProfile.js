@@ -10,6 +10,8 @@ import {
 import React, {useEffect, useState} from 'react';
 
 import Icon from 'react-native-vector-icons/AntDesign';
+import Iconmenu from 'react-native-vector-icons/Entypo';
+
 // // import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
@@ -53,12 +55,13 @@ const MyProfile = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon
-            name="left"
+        <TouchableOpacity style={styles.menuIconContainer}
+          onPress={() => navigation.toggleDrawer()}>
+          <Iconmenu
+            name="menu"
             size={30}
-            color="#000000"
-            style={styles.backbutton}
+            color="#333"
+            // style={styles.backbutton}
           />
         </TouchableOpacity>
         <Text style={styles.title}>My Profile</Text>
@@ -182,7 +185,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15,
+    // marginTop: 15,
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: -4.05,
+    top: -1.5,
+    // paddingRight: 10,
+    // paddingBottom: 25,
   },
   backbutton: {
     marginRight: 10,

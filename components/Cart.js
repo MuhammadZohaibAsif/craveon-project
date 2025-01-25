@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons1 from 'react-native-vector-icons/FontAwesome';
+import Iconmenu from 'react-native-vector-icons/Entypo';
 
 import CartContext from './CartContext';
 import {FlatList, Swipeable} from 'react-native-gesture-handler';
@@ -73,12 +74,14 @@ const Cart = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons
+        <TouchableOpacity
+          style={styles.menuIconContainer}
+          onPress={() => navigation.navigate("DrawerNavigator")}>
+          <Icon
             name="left"
             size={30}
-            color="#000000"
-            style={styles.backbutton}
+            color="#333"
+            // style={styles.backbutton}
           />
         </TouchableOpacity>
         <Text style={styles.title}>Cart</Text>
@@ -130,13 +133,20 @@ const styles = StyleSheet.create({
   container: {
     margin: 25,
     flex: 1,
-    // justifyContent: 'space-between',
+    justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15,
+    // marginTop: 15,
     alignItems: 'center',
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: -4.05,
+    top: -1.5,
+    // paddingRight: 10,
+    // paddingBottom: 25,
   },
   backbutton: {
     marginRight: 10,

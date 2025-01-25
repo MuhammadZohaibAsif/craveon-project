@@ -10,6 +10,8 @@ import {
 import React, {useContext, useState} from 'react';
 import CartContext from './CartContext';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Iconmenu from 'react-native-vector-icons/Entypo';
+import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
 import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -76,15 +78,23 @@ const Order = ({navigation}) => {
 
   const handleContinueOrder = () => {
     // Navigate to Home when the button is pressed
-    navigation.navigate('Tabnavigator', {screen: 'Home'});
+    // navigation.navigate('Tabnavigator', {screen: 'Home'});
+    navigation.navigate('DrawerNavigator');
   };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="left" size={26} color="black" style={styles.backbutton} />
+        <TouchableOpacity
+          style={styles.menuIconContainer}
+          onPress={() => navigation.toggleDrawer()}>
+          <Iconmenu name="menu" size={30} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Orders</Text>
+        <TouchableOpacity
+         onPress={()=>navigation.navigate("Cart")}
+          style={styles.cartContainer}>
+          <Iconshoping name="shoppingcart" size={28} color="#333" />
+        </TouchableOpacity>
       </View>
       {orderedItems.length === 0 ? (
         <View style={styles.content}>
@@ -133,7 +143,7 @@ const Order = ({navigation}) => {
           <Text style={styles.buttontext}>Continue Ordering</Text>
         </TouchableOpacity>
       )}
-      
+
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.lottieContainer}>
@@ -184,7 +194,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 17,
+    // marginTop: 17,
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: -4.05,
+    top: -1.5,
+    // paddingRight: 10,
+    // paddingBottom: 25,
+  },
+  cartContainer: {
+    position: 'absolute', // To make it left-aligned
+    right: -5,
+    top: -1.5,
+    // paddingRight: 10,
+    // paddingBottom: 25,
   },
   backbutton: {
     fontSize: 24,

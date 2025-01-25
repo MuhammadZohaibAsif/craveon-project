@@ -1,7 +1,17 @@
-import {StyleSheet, Text,Modal, View, BackHandler, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  Modal,
+  View,
+  BackHandler,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import MenuItem from './MenuItem';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Entypo';
+import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
+
+
 // import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import {FlatList} from 'react-native-gesture-handler';
 import {Snackbar} from 'react-native-paper';
@@ -109,8 +119,15 @@ const Home = ({navigation}) => {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-          
+          <TouchableOpacity onPress={()=>navigation.toggleDrawer()}
+             style={styles.menuIconContainer}>
+            <Icon name="menu" size={30} color="#333" />
+          </TouchableOpacity>
           <Text style={styles.title}>Our Menu</Text>
+          <TouchableOpacity onPress={()=>navigation.navigate("Cart")}
+             style={styles.cartContainer}>
+            <Iconshoping name="shoppingcart" size={28} color="#333" />
+          </TouchableOpacity>
         </View>
         {/* <View style={styles.swipecontainer}>
         <Icon1 name="swipe-up" style={styles.swipeicon} />
@@ -161,15 +178,29 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 35,
+    marginTop: 25,
     flex: 1,
     justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    // marginTop: 10,
     alignItems: 'center',
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: 10,
+    // top: 10,
+    padding: 10,
+    paddingBottom:25
+  },
+  cartContainer: {
+    position: 'absolute', // To make it left-aligned
+    right: 10,
+    // top: 10,
+    padding: 10,
+    paddingBottom:25
   },
   backbutton: {
     marginRight: 10,
@@ -215,7 +246,7 @@ const styles = StyleSheet.create({
   modalButton: {
     backgroundColor: '#ff5723',
     paddingHorizontal: 15,
-    paddingVertical:8,
+    paddingVertical: 8,
     borderRadius: 5,
   },
   modalButtonText: {

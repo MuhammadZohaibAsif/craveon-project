@@ -16,7 +16,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const DeliveryCheckOut = ({navigation, route}) => {
   const {setOrderData} = useContext(CartContext);
-  const [name, setName] = useState('jhchhc');
+  const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
 

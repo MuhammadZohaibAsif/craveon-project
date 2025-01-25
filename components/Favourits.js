@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native';
 import React, {useContext} from 'react';
+import Iconmenu from 'react-native-vector-icons/Entypo';
+import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/AntDesign';
@@ -57,16 +59,17 @@ const Favourits = ({navigation}) => {
   return (
     <View style={styles.favcontainer}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon2
-            name="left"
-            size={26}
-            color="black"
-            style={styles.backbutton}
-          />
+        <TouchableOpacity
+          onPress={() => navigation.toggleDrawer()}
+          style={styles.menuIconContainer}>
+          <Iconmenu name="menu" size={30} color="#333" />
         </TouchableOpacity>
 
         <Text style={styles.title}>Favourites</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate("Cart")}
+             style={styles.cartContainer}>
+            <Iconshoping name="shoppingcart" size={28} color="#333" />
+          </TouchableOpacity>
       </View>
 
       {favoriteItems.length > 0 ? (
@@ -96,15 +99,30 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "space-between",
     // padding: 25,
+
+    marginTop: 25,
     backgroundColor: '##f9f9f9',
   },
   header: {
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 42,
+    // marginTop: 42,
 
     alignItems: 'center',
+  },
+  menuIconContainer: {
+    position: 'absolute', // To make it left-aligned
+    left: 10,
+    padding: 10,
+    // paddingBottom: 20,
+  },
+  cartContainer: {
+    position: 'absolute', // To make it left-aligned
+    right: 10,
+    // top: 10,
+    padding: 10,
+    // paddingBottom:25
   },
   backbutton: {
     color: '#333',
@@ -119,7 +137,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   content: {
-    marginTop:220,
+    marginTop: 220,
     alignItems: 'center',
   },
   icon: {
@@ -192,7 +210,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-
 
   price: {
     fontSize: 16,

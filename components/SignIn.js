@@ -35,8 +35,7 @@ const SignIn = ({navigation}) => {
       }
 
 
-      navigation.replace('Tabnavigator'); // Navigate to Home after successful login
-
+      navigation.replace('DrawerNavigator');
     } catch (error) {
 
 
