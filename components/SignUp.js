@@ -26,7 +26,7 @@ const SignUp = ({navigation}) => {
       Alert.alert('Error', 'Please enter all fields');
       return;
     }
-    setIsLoading(true); // Start loading indicator
+    setIsLoading(true);
 
     try {
       const userCredential = await auth().createUserWithEmailAndPassword(

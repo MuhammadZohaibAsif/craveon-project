@@ -3,8 +3,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import CartContext from './CartContext';
 import {Snackbar} from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const ProductDetails = ({navigation, route}) => {
   const [snackbarVisible, setsnakebarVisible] = useState(false);
@@ -15,21 +13,20 @@ const ProductDetails = ({navigation, route}) => {
   const {addToCart, toggleFavorite, isFavorite} = useContext(CartContext);
 
   const handleToggleFavorite = () => {
-    const isFav = isFavorite(name); // Check current favorite state
-    toggleFavorite({name, price, imageName}); // Toggle favorite status
-    
+    const isFav = isFavorite(name);
+    toggleFavorite({name, price, imageName});
+
     if (isFav) {
       setsnakebarMessage(`${name} removed from favorites`);
     } else {
       setsnakebarMessage(`${name} added to favorites`);
     }
-  
-    setsnakebarVisible(true); // Show snackbar
+
+    setsnakebarVisible(true);
   };
 
   const handleAddToCart = () => {
     addToCart(name, price, imageName);
-    // navigation.navigate('Cart');
     setsnakebarMessage(`${name} added to cart`);
     setsnakebarVisible(true);
   };
@@ -69,8 +66,6 @@ const ProductDetails = ({navigation, route}) => {
           </Text>
         </View>
         <View></View>
-        {/* <View></View> */}
-        {/* onPress={handleAddToCart} */}
         <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
           <Text style={styles.buttontext}>Add to cart</Text>
         </TouchableOpacity>

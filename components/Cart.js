@@ -1,14 +1,12 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
-import Ionicons from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Iconleft from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons1 from 'react-native-vector-icons/FontAwesome';
-import Iconmenu from 'react-native-vector-icons/Entypo';
 
 import CartContext from './CartContext';
 import {FlatList, Swipeable} from 'react-native-gesture-handler';
-// import Order from './Order';
 
 const Cart = ({navigation}) => {
   const {cartitem, updateQuantity, updateCart, calculateTotal} =
@@ -29,12 +27,12 @@ const Cart = ({navigation}) => {
 
   const handleCheckout = () => {
     const total = calculateTotal();
-    navigation.navigate('CheckOut', {total}); // Cart clear yahan nahi hoga
+    navigation.navigate('CheckOut', {total}); 
   };
 
   const removefromcart = name => {
     const updatedCart = cartitem.filter(item => item.name !== name);
-    updateCart(updatedCart); // Make sure this works as expected
+    updateCart(updatedCart); 
   };
   const renderRightAction = item => (
     <TouchableOpacity
@@ -77,12 +75,7 @@ const Cart = ({navigation}) => {
         <TouchableOpacity
           style={styles.menuIconContainer}
           onPress={() => navigation.navigate("DrawerNavigator")}>
-          <Icon
-            name="left"
-            size={30}
-            color="#333"
-            // style={styles.backbutton}
-          />
+          <Iconleft name="chevron-left" size={30} color="#333" />
         </TouchableOpacity>
         <Text style={styles.title}>Cart</Text>
       </View>
@@ -133,20 +126,16 @@ const styles = StyleSheet.create({
   container: {
     margin: 25,
     flex: 1,
-    // justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
-    // marginTop: 15,
     alignItems: 'center',
   },
   menuIconContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute', 
     left: -4.05,
     top: -1.5,
-    // paddingRight: 10,
-    // paddingBottom: 25,
   },
   backbutton: {
     marginRight: 10,
@@ -245,7 +234,7 @@ const styles = StyleSheet.create({
   icon: {
     height: 110,
     width: 110,
-    // marginBottom: 10,
+
   },
   nohistorytext: {
     fontSize: 24,

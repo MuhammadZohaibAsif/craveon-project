@@ -5,14 +5,12 @@ import {
   Text,
   Alert,
   Modal,
-  Button,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Iconmenu from 'react-native-vector-icons/Entypo';
 
-import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/FontAwesome';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -25,7 +23,7 @@ const History = ({navigation}) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const userId = auth().currentUser.uid; // Get current user ID
+        const userId = auth().currentUser.uid; 
         const userDoc = await firestore().collection('Users').doc(userId).get();
 
         if (userDoc.exists) {
@@ -72,10 +70,8 @@ const History = ({navigation}) => {
           history: firestore.FieldValue.arrayUnion(orderData),
         });
 
-      // Clear cart in CartContext
-      updateCart([]); // Reset cart items
-
-      // Navigate to History and reset stack
+     
+      updateCart([]); 
       navigation.reset({
         index: 0,
         routes: [{name: 'History'}],
@@ -95,7 +91,6 @@ const History = ({navigation}) => {
         item => item.orderNumber !== orderNumber,
       );
 
-      // Update Firestore
       await firestore().collection('Users').doc(userId).update({
         history: updatedHistory,
       });
@@ -112,7 +107,6 @@ const History = ({navigation}) => {
     try {
       const userId = auth().currentUser.uid;
 
-      // Update Firestore
       await firestore().collection('Users').doc(userId).update({
         history: [],
       });
@@ -180,7 +174,6 @@ const History = ({navigation}) => {
           onPress={() => navigation.toggleDrawer()}>
           <Iconmenu name="menu" size={30} color="#333" />
         </TouchableOpacity>
-        {/* <Text style={styles.backbutton}>{'<'}</Text> */}
         <Text style={styles.title}>History</Text>
 
         {history.length > 0 && (
@@ -270,23 +263,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 19,
     marginBottom: 40,
-    // backgroundColor:"green"
   },
   menuIconContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute', 
     left: -4.05,
     top: -1.5,
-    // paddingRight: 10,
-    // paddingBottom: 25,
+   
   },
   trashiconcontainer:{
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute', 
     right: -4.05,
     top: 4,
-    // paddingRight: 10,
-    // paddingBottom: 25,
+  
   },
   backbutton: {
     color: '#333',
@@ -339,7 +328,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     marginBottom: 10,
-    // elevation: 2,
   },
   orderCard1: {
     backgroundColor: '#f9f9f9',
@@ -393,7 +381,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: '80%',
-    // alignItems: 'center',
   },
   modalTitle: {
     fontSize: 24,

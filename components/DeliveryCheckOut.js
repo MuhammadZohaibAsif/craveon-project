@@ -7,13 +7,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
-import {Snackbar} from 'react-native-paper';
 import CartContext from './CartContext';
-
-import Icon from 'react-native-vector-icons/AntDesign';
-import Icons from 'react-native-vector-icons/MaterialIcons';
-import {RadioButton} from 'react-native-paper';
-import {ScrollView} from 'react-native-gesture-handler';
+import Iconleft from 'react-native-vector-icons/Entypo';
 
 const DeliveryCheckOut = ({navigation, route}) => {
   const {setOrderData} = useContext(CartContext);
@@ -22,8 +17,6 @@ const DeliveryCheckOut = ({navigation, route}) => {
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // const [snackbarVisible, setSnackbarVisible] = useState(false);
-  // const [snackbarMessage, setSnackbarMessage] = useState('');
   const {total} = route.params;
 
   const generateOrderNumber = () => Math.floor(Math.random() * 1000000);
@@ -37,7 +30,7 @@ const DeliveryCheckOut = ({navigation, route}) => {
       setOrderData(orderNumber, total);
 
       setTimeout(() => {
-        setLoading(false); // Stop loader after some delay (simulating a request)
+        setLoading(false);
         navigation.navigate('Order');
       }, 2000);
     } else {
@@ -50,10 +43,10 @@ const DeliveryCheckOut = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon
-              name="left"
+            <Iconleft
+              name="chevron-left"
               size={30}
-              color="#000000"
+              color="#333"
               style={styles.backbutton}
             />
           </TouchableOpacity>
@@ -64,9 +57,6 @@ const DeliveryCheckOut = ({navigation, route}) => {
         <View style={styles.addresscontainer}>
           <View style={styles.changecontainer}>
             <Text style={styles.addressdetails}>Address details</Text>
-            <TouchableOpacity>
-              <Text style={styles.changebtn}>change</Text>
-            </TouchableOpacity>
           </View>
           <View style={styles.addressdetailscontainer}>
             <TextInput
@@ -100,7 +90,7 @@ const DeliveryCheckOut = ({navigation, route}) => {
           <Text style={styles.totalamount}>{total}</Text>
         </View>
 
-        {loading ? ( // Show loader when loading is true
+        {loading ? (
           <ActivityIndicator size="large" color="#ff5723" />
         ) : (
           <TouchableOpacity style={styles.paymentbtn} onPress={handleOrders}>
@@ -108,17 +98,6 @@ const DeliveryCheckOut = ({navigation, route}) => {
           </TouchableOpacity>
         )}
       </View>
-      {/* <Snackbar
-        visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        duration={2000} // Duration of Snackbar visibility
-        action={{
-          label: 'Close',
-          onPress: () => setSnackbarVisible(false),
-        }}
-        style={styles.snackbar}>
-        {snackbarMessage}
-      </Snackbar> */}
     </>
   );
 };
@@ -150,7 +129,6 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: 'bold',
     paddingHorizontal: 16,
-    // marginHorizontal: 15,
     marginVertical: 15,
   },
   changecontainer: {
@@ -293,33 +271,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   snackbar: {
-    borderRadius: 10, // Optional: rounded corners for the Snackbar
+    borderRadius: 10,
   },
 });
-
-{
-  /* <View style={styles.addresscontainer}>
-        <Text style={styles.deliverymethod}>Delivery method</Text>
-        <View style={styles.deliverydetailscontainer}>
-          <View style={styles.ddradiobtn}>
-            <RadioButton value="door delivery" />
-            <Icons
-              name="delivery-dining"
-              color="#ffffff"
-              style={styles.ddicon}
-            />
-            <Text style={styles.ddtext}>Door delivery</Text>
-          </View>
-          <View style={styles.radioHR}></View>
-          <View style={styles.pupradiobtn}>
-            <RadioButton value="pick up" />
-            <Icons
-              name="share-location"
-              color="#ffffff"
-              style={styles.pupicon}
-            />
-            <Text style={styles.ddtext}>Pick up</Text>
-          </View>
-        </View>
-      </View> */
-}

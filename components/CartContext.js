@@ -1,5 +1,4 @@
 import {Children, createContext, useEffect, useState} from 'react';
-import ImageMap from './ImageMap';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -8,7 +7,11 @@ export const CartProvider = ({children}) => {
   const [cartitem, setCartItem] = useState([]);
   const [orderDetails, setOrderDetails] = useState(null);
   const [favoriteItems, setFavoriteItems] = useState([]);
+  const [orderTimestamp, setOrderTimestamp] = useState(null);
 
+  const setOrderTime = (timestamp) => {
+    setOrderTimestamp(timestamp);
+  };
   const user = auth().currentUser;
   useEffect(() => {
     if (user) {
@@ -19,10 +22,10 @@ export const CartProvider = ({children}) => {
           snapshot => {
             if (snapshot.exists) {
               const data = snapshot.data();
-              setFavoriteItems(data?.favorites || []); // Set favorites array from Firestore
+              setFavoriteItems(data?.favorites || []); 
             } else {
               console.log('User document not found');
-              setFavoriteItems([]); // Empty array if no user document
+              setFavoriteItems([]); 
             }
           },
           error => {
@@ -30,7 +33,7 @@ export const CartProvider = ({children}) => {
           },
         );
 
-      return () => unsubscribe(); // Cleanup listener
+      return () => unsubscribe(); 
     }
   }, [user]);
 
@@ -44,17 +47,15 @@ export const CartProvider = ({children}) => {
     const currentFavorites = [...favoriteItems];
 
     if (currentFavorites.some(item => item.name === product.name)) {
-      // If already favorite, remove it
       const updatedFavorites = currentFavorites.filter(
         item => item.name !== product.name,
       );
       await userRef.update({favorites: updatedFavorites});
-      setFavoriteItems(updatedFavorites); // Update local state
+      setFavoriteItems(updatedFavorites); 
     } else {
-      // If not favorite, add to Firestore
       const updatedFavorites = [...currentFavorites, product];
       await userRef.update({favorites: updatedFavorites});
-      setFavoriteItems(updatedFavorites); // Update local state
+      setFavoriteItems(updatedFavorites);
     }
   };
 
@@ -101,18 +102,18 @@ export const CartProvider = ({children}) => {
   const setOrderData = (orderNumber, total) => {
     const currentDate = new Date();
 
-    const date = currentDate.toLocaleDateString(); // Format: MM/DD/YYYY
-    const time = currentDate.toLocaleTimeString(); // Format: HH:MM AM/PM
+    const date = currentDate.toLocaleDateString(); 
+    const time = currentDate.toLocaleTimeString(); 
 
     setOrderDetails({orderNumber, total, date, time, items: cartitem});
   };
 
   const clearOrderDetails = () => {
-    setOrderDetails({}); // Reset orderDetails to empty
+    setOrderDetails({}); 
   };
 
   const getTotalCartItems = () => {
-    return cartitem.length // Total quantity calculate
+    return cartitem.length 
   };
   return (
     <CartContext.Provider
@@ -125,11 +126,12 @@ export const CartProvider = ({children}) => {
         calculateTotal,
         setOrderData,
         orderDetails,
-        // clearOrderData,
-        favoriteItems, // Exposing favoriteItems
-        toggleFavorite, // Exposing toggleFavorite function
-        isFavorite, // Exposing isFavorite function
+        favoriteItems, 
+        toggleFavorite, 
+        isFavorite, 
         clearOrderDetails,
+        orderTimestamp, 
+        setOrderTime,
       }}>
       {children}
     </CartContext.Provider>

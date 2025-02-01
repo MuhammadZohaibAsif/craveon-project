@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   Modal,
   TextInput,
   ScrollView,
@@ -14,9 +13,9 @@ import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import Iconleft from 'react-native-vector-icons/Entypo';
 
 import {RadioButton} from 'react-native-paper';
-// import { RawButton } from 'react-native-gesture-handler';
 const CheckOut = ({navigation, route}) => {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [deliveryMethod, setDeliveryMethod] = useState(null);
@@ -60,9 +59,8 @@ const CheckOut = ({navigation, route}) => {
         console.log;
       }
       console.log('Saving payment details:', paymentMethod, details);
-      onSave(paymentMethod, details); // Save details to Firestore
-      // alert(`${paymentMethod} details saved successfully.`);
-      onClose(); // Close the modal
+      onSave(paymentMethod, details);
+      onClose();
     };
 
     return (
@@ -131,7 +129,7 @@ const CheckOut = ({navigation, route}) => {
   };
   const handlePaymentMethodChange = value => {
     setPaymentMethod(value);
-    setShowModal(true); // Show modal when a payment method is selected
+    setShowModal(true);
   };
 
   const handleSavePaymentDetails = (paymentMethod, details) => {
@@ -140,24 +138,13 @@ const CheckOut = ({navigation, route}) => {
       return;
     }
 
-    const userId = auth().currentUser.uid; // Get the current user's ID
-    const userRef = firestore()
-      .collection('Users') // Access the 'Users' collection
-      .doc(userId); // Locate the current user document
-    // .collection('paymentMethods') // Subcollection for payment methods
-    // .doc(paymentMethod); // Specific document for selected payment method
-
-    // Save details to Firestore
+    const userId = auth().currentUser.uid;
+    const userRef = firestore().collection('Users').doc(userId);
     userRef
-      .update({[`paymentMethods.${paymentMethod}`]: details,
+      .update({[`paymentMethods.${paymentMethod}`]: details})
 
-      })
-
-      // .set(details)
       .then(() => {
         console.log(`${paymentMethod} details saved successfully`);
-        // alert('Payment details saved successfully.');
-        // color = '#000000';
       })
       .catch(error => {
         console.error('Error saving payment details:', error);
@@ -169,10 +156,10 @@ const CheckOut = ({navigation, route}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon
-            name="left"
+          <Iconleft
+            name="chevron-left"
             size={30}
-            color="#000000"
+            color="#333"
             style={styles.backbutton}
           />
         </TouchableOpacity>
@@ -319,13 +306,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 15,
   },
-  deliverycontainer: {
-    // flex:4,
-    // margin: 26,
-    // padding: 15,
-    // backgroundColor: '#ffffff',
-    // borderRadius: 15,
-  },
+
   paymentbutton: {
     backgroundColor: '#ff5723',
     alignItems: 'center',
@@ -373,8 +354,8 @@ const styles = StyleSheet.create({
   },
   HorizontalLine: {
     width: '68%',
-    borderBottomColor: 'black', // Line color
-    borderBottomWidth: 1, // Line thickness
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
     marginVertical: 7,
     alignSelf: 'center',
   },
@@ -410,7 +391,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   modalContainer: {
-    // flex:1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',

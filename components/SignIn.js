@@ -28,13 +28,12 @@ const SignIn = ({navigation}) => {
       const userCredential = await auth().signInWithEmailAndPassword(
         email,
         password,
-      ); // Define userCredential
+      );
 
       const userId = userCredential.user.uid;
 
       const userDoc = await firestore().collection('Users').doc(userId).get();
       if (userDoc.exists) {
-        // console.log('User data:', userDoc.data());
       }
 
       navigation.replace('DrawerNavigator');
@@ -49,7 +48,7 @@ const SignIn = ({navigation}) => {
         setErrorMessage('Something went wrong. Please try again.');
       }
     } finally {
-      setIsLoading(false); // Set loading to false once the process is complete
+      setIsLoading(false);
     }
   };
 

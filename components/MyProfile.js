@@ -9,17 +9,13 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-import Icon from 'react-native-vector-icons/AntDesign';
 import Iconmenu from 'react-native-vector-icons/Entypo';
 
-// // import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 import Icon3 from 'react-native-vector-icons/Fontisto';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
-import {RadioButton} from 'react-native-paper';
 
 const MyProfile = ({navigation}) => {
   const [userData, setUserData] = useState({});
@@ -28,13 +24,13 @@ const MyProfile = ({navigation}) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userId = auth().currentUser.uid; // Current User UID
+      const userId = auth().currentUser.uid;
       const userDoc = await firestore().collection('Users').doc(userId).get();
 
       if (userDoc.exists) {
         const data = userDoc.data();
-        setUserData(data); // State update
-        setEditedData(data); // Edit ke liye initial data
+        setUserData(data);
+        setEditedData(data);
       }
     };
 
@@ -45,45 +41,26 @@ const MyProfile = ({navigation}) => {
     const userId = auth().currentUser.uid;
     try {
       await firestore().collection('Users').doc(userId).update(editedData);
-      setUserData(editedData); // UI update
-      setIsEditing(false); // Modal close
+      setUserData(editedData);
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating user data:', error);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.menuIconContainer}
-          onPress={() => navigation.toggleDrawer()}>
-          <Iconmenu
-            name="menu"
-            size={30}
-            color="#333"
-            // style={styles.backbutton}
-          />
-        </TouchableOpacity>
-        <Text style={styles.title}>My Profile</Text>
-      </View>
-      <View>
-        <Text style={styles.containertext}>Information</Text>
-        <View style={styles.profilecontainer}>
-          <Icon3
-            name="person"
-            size={35}
-            color="#ff5723"
-            style={styles.personimage}
-          />
-          <View style={styles.proinfocontainer}>
-            <Text style={styles.MarvisIghedosa}>{userData.name || 'Name'}</Text>
-            <Text>{userData.email || 'Email'}</Text>
-            <Text style={styles.profiletexts}>
-              {userData.address || 'Address'}
-            </Text>
-            <Text>{userData.mobileNumber || 'Phone'}</Text>
-          </View>
-          <TouchableOpacity onPress={() => setIsEditing(true)}>
+    <>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.menuIconContainer}
+            onPress={() => navigation.toggleDrawer()}>
+            <Iconmenu name="menu" size={30} color="#333" />
+          </TouchableOpacity>
+          <Text style={styles.title}>My Profile</Text>
+          <TouchableOpacity
+            style={styles.editiconcontainer}
+            onPress={() => setIsEditing(true)}>
             <Icon2
               name="edit"
               size={20}
@@ -92,47 +69,45 @@ const MyProfile = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        <Text style={styles.containertext}>Payment method</Text>
-        <RadioButton.Group>
-          <View style={styles.radiobtncontainer}>
-            <View style={styles.radiobuttonview}>
-              <RadioButton value="credit" />
-              <Icon
-                name="creditcard"
-                color="#ffffff"
-                style={styles.creditcardicon}
-              />
-              <Text style={styles.radionbuttontext}>Credit card</Text>
-            </View>
-            <View style={styles.HorizontalLine} />
-            <View style={styles.radiobuttonview}>
-              <RadioButton value="credit" />
-              <Icon2
-                name="bank"
-                color="#ffffff"
-                style={styles.bankaccounticon}
-              />
-              <Text style={styles.radionbuttontext}>Bank account</Text>
-            </View>
-            <View style={styles.HorizontalLine} />
 
-            <View style={styles.radiobuttonview}>
-              <RadioButton value="credit" />
-              <Icon2 name="paypal" color="#ffffff" style={styles.paypalicon} />
-
-              <Text style={styles.radionbuttontext}> Paypal</Text>
-            </View>
+        <View style={styles.parentbgccontainer}>
+          <Icon3
+            name="person"
+            size={120}
+            color="#ff5723"
+            style={styles.personimage}
+          />
+        </View>
+        <View style={styles.usercontainer}>
+          <View style={styles.headingcontainer}>
+            <Text style={styles.headingtext}>Name</Text>
+            <Text style={styles.userinfotxt}>{userData.name || 'Name'}</Text>
           </View>
-        </RadioButton.Group>
-      </View>
-      <View></View>
-      <View></View>
-      <TouchableOpacity style={styles.paymentbutton}>
-        <Text style={styles.buttontext}>Updated</Text>
-      </TouchableOpacity>
 
+          <View style={styles.HorizontalLine}></View>
+          <View style={styles.headingcontainer}>
+            <Text style={styles.headingtext}>Email</Text>
+            <Text style={styles.userinfotxt}>{userData.email || 'Email'}</Text>
+          </View>
+          <View style={styles.HorizontalLine}></View>
+
+          <View style={styles.headingcontainer}>
+            <Text style={styles.headingtext}>Phone</Text>
+            <Text style={styles.userinfotxt}>
+              {userData.mobileNumber || 'Phone'}
+            </Text>
+          </View>
+          <View style={styles.HorizontalLine}></View>
+
+          <View style={styles.headingcontainer}>
+            <Text style={styles.headingtext}>Address</Text>
+            <Text style={styles.userinfotxt}>
+              {userData.address || 'Address'}
+            </Text>
+          </View>
+          <View style={styles.HorizontalLine}></View>
+        </View>
+      </View>
       <Modal visible={isEditing} animationType="fade" transparent={true}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -169,7 +144,7 @@ const MyProfile = ({navigation}) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </>
   );
 };
 
@@ -178,24 +153,24 @@ export default MyProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 25,
-    justifyContent: 'space-between',
+    paddingVertical: 25,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: 15,
   },
   menuIconContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute',
     left: -4.05,
     top: -1.5,
-    // paddingRight: 10,
-    // paddingBottom: 25,
+    paddingLeft: 25,
   },
-  backbutton: {
-    marginRight: 10,
+  editiconcontainer: {
+    position: 'absolute',
+    right: -4.05,
+    top: 4.5,
+    paddingRight: 25,
   },
   title: {
     color: '#333',
@@ -203,32 +178,78 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal: 90,
   },
+  parentbgccontainer: {
+    backgroundColor: '#ffffff',
+    opacity: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 220,
+    marginTop: 34,
+    elevation: 3,
+    marginHorizontal: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    borderColor: '#ff5723',
+    borderRightWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderTopWidth: 0.5,
+  },
+
+  personimage: {
+    borderRadius: 10,
+    marginHorizontal: 13,
+    marginLeft: 20,
+  },
+  usercontainer: {
+    flex: 1,
+    paddingHorizontal: 25,
+    paddingTop: 15,
+    borderColor: '#ff5723',
+    borderBottomWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderLeftWidth: 0.5,
+    backgroundColor: '#ffffff',
+    elevation: 1,
+    marginHorizontal: 25,
+    marginBottom: 25,
+    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 25,
+  },
+  headingcontainer: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+  },
+  headingtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#ff5723',
+    marginBottom: 8,
+  },
+  userinfotxt: {
+    paddingHorizontal: 10,
+    fontSize: 15,
+    color: '#000000',
+  },
+
+  backbutton: {
+    marginRight: 10,
+  },
 
   profilecontainer: {
-    flexDirection: 'row',
-    // width: 300,
-    paddingVertical:12,
-    paddingRight:15,
+    flexDirection: 'column',
+    paddingVertical: 12,
     backgroundColor: '#ffffff',
     borderRadius: 15,
     margin: 6,
     marginVertical: 15,
-    elevation: 5,
-    // justifyContent:"center",
-  },
-  proinfocontainer: {
-    width: 195,
     justifyContent: 'center',
-    flex: 1,
+    alignItems: 'center',
   },
-  personimage: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    marginHorizontal: 13,
-    marginLeft: 20,
-    marginTop: 22,
+  iconscontainer: {
+    flexDirection: 'row',
   },
+  proinfocontainer: {},
+
   MarvisIghedosa: {
     textTransform: 'capitalize',
     fontSize: 18,
@@ -236,9 +257,13 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 
-  editicon: {
-    marginRight: 10,
-    marginTop: 23,
+  editicon: {},
+  infromationcontaiber: {
+    flexDirection: 'row',
+    marginTop: 100,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   containertext: {
     marginHorizontal: 6,
@@ -249,7 +274,6 @@ const styles = StyleSheet.create({
   },
   radiobtncontainer: {
     margin: 6,
-
     padding: 15,
     marginVertical: 15,
     backgroundColor: '#ffffff',
@@ -286,14 +310,14 @@ const styles = StyleSheet.create({
   },
 
   HorizontalLine: {
-    width: '68%',
-    borderBottomColor: 'black', // Line color
-    borderBottomWidth: 1, // Line thickness
-    marginVertical: 7,
+    width: '80%',
+    borderBottomColor: '#ff5723',
+    borderBottomWidth: 1,
+    marginVertical: 5,
     alignSelf: 'center',
+    opacity: 0.6,
   },
   profiletexts: {
-    // textTransform: 'capitalize',
     textAlign: 'left',
   },
 

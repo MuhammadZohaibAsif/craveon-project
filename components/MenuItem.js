@@ -4,8 +4,6 @@ import React, {useState, useContext, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import CartContext from './CartContext';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const MenuItem = ({
   name,
@@ -16,7 +14,6 @@ const MenuItem = ({
   onaddtoCart,
   onToggleFavorite,
 }) => {
-  // const imagePath = ImageMap[imageName];
   const {addToCart, toggleFavorite, isFavorite} = useContext(CartContext);
 
   const handleToggleFavorite = () => {
@@ -35,9 +32,6 @@ const MenuItem = ({
   };
 
   return (
-
-
-    
     <>
       <TouchableOpacity onPress={handleprodetails}>
         <View style={styles.container}>
@@ -121,7 +115,6 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: 'bold',
     padding: 4,
-    // marginHorizontal:,
     marginVertical: 8,
     borderRadius: 3,
     backgroundColor: '#f5cbe4',

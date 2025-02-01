@@ -8,19 +8,18 @@ import {
 } from 'react-native';
 import React, {useContext} from 'react';
 import Iconmenu from 'react-native-vector-icons/Entypo';
-import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
+import Iconshoping from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon1 from 'react-native-vector-icons/AntDesign';
-import Icon2 from 'react-native-vector-icons/AntDesign';
 import CartContext from './CartContext';
 
 const Favourits = ({navigation}) => {
   const {addToCart, favoriteItems, toggleFavorite, getTotalCartItems} =
     useContext(CartContext);
-  const cartItemCount = getTotalCartItems(); // Get the cart item count
+  const cartItemCount = getTotalCartItems();
 
   const handleHistory = () => {
-    navigation.navigate('MyProfile'); // Move navigation here to avoid the warning
+    navigation.navigate('MyProfile');
   };
 
   const handleAddToCart = item => {
@@ -72,7 +71,7 @@ const Favourits = ({navigation}) => {
           onPress={() => navigation.navigate('Cart')}
           style={styles.cartContainer}>
           <Iconshoping name="shoppingcart" size={28} color="#333" />
-          {cartItemCount > 0 && ( // Show badge only if cart has items
+          {cartItemCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>{cartItemCount}</Text>
             </View>
@@ -105,8 +104,6 @@ export default Favourits;
 const styles = StyleSheet.create({
   favcontainer: {
     flex: 1,
-    // justifyContent: "space-between",
-    // padding: 25,
 
     marginTop: 25,
     backgroundColor: '##f9f9f9',
@@ -115,22 +112,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'center',
-    // marginTop: 42,
 
     alignItems: 'center',
   },
   menuIconContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute',
     left: 10,
     padding: 10,
-    // paddingBottom: 20,
   },
   cartContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute',
     right: 10,
-    // top: 10,
     padding: 10,
-    // paddingBottom:25
   },
   badge: {
     position: 'absolute',
@@ -167,7 +160,6 @@ const styles = StyleSheet.create({
   icon: {
     height: 100,
     width: 90,
-    // marginBottom: 10,
   },
   nohistorytext: {
     fontSize: 24,
@@ -194,7 +186,6 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    // flex:1,
     padding: 8,
     marginHorizontal: 10,
     marginVertical: 7,

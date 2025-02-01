@@ -10,8 +10,8 @@ import {
 import React, {useContext, useState} from 'react';
 import CartContext from './CartContext';
 import Icon from 'react-native-vector-icons/Fontisto';
-import Iconmenu from 'react-native-vector-icons/Entypo';
-import Iconshoping from 'react-native-vector-icons/AntDesign'; //////
+import Iconleft from 'react-native-vector-icons/Entypo';
+import Iconshoping from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -19,11 +19,15 @@ import LottieView from 'lottie-react-native';
 
 const Order = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  // const [showCompleteOrderButton, setShowCompleteOrderButton] = useState(false);
   const [showContinueOrderButton, setShowContinueOrderButton] = useState(false);
-  const {orderDetails, updateCart, clearOrderDetails, getTotalCartItems} =
-    useContext(CartContext);
+  const {
+    orderDetails,
+    updateCart,
+    clearOrderDetails,
+    getTotalCartItems,
+    orderTimestamp,
+    setOrderTime,
+  } = useContext(CartContext);
 
   const cartItemCount = getTotalCartItems();
 
@@ -60,16 +64,13 @@ const Order = ({navigation}) => {
           history: firestore.FieldValue.arrayUnion(orderData),
         });
 
-      // **Yahan Cart ko Reset karein**
       updateCart([]);
       clearOrderDetails();
-
+      setOrderTime(Date.now());
       setIsModalVisible(true);
-      // setShowCompleteOrderButton(true);
-      // Navigate to Home after 2 seconds
+
       setTimeout(() => {
         setIsModalVisible(false);
-        // navigation.navigate('Tabnavigator', { screen: 'Home' });
 
         setShowContinueOrderButton(true);
       }, 3000);
@@ -80,30 +81,33 @@ const Order = ({navigation}) => {
   };
 
   const handleContinueOrder = () => {
-    // Navigate to Home when the button is pressed
-    // navigation.navigate('Tabnavigator', {screen: 'Home'});
-    navigation.navigate('DrawerNavigator');
+    navigation.navigate('DrawerNavigator', {
+      screen: 'TabNavigator',
+      params: {screen: 'Home'},
+    });
   };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.menuIconContainer}
-          onPress={() => navigation.toggleDrawer()}>
-          <Iconmenu name="menu" size={30} color="black" />
+          onPress={handleContinueOrder}>
+          <Iconleft name="chevron-left" size={30} color="#333" />
         </TouchableOpacity>
+
         <Text style={styles.title}>Orders</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Cart')}
           style={styles.cartContainer}>
           <Iconshoping name="shoppingcart" size={28} color="#333" />
-          {cartItemCount > 0 && ( // Show badge only if cart has items
+          {cartItemCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>{cartItemCount}</Text>
             </View>
           )}
         </TouchableOpacity>
       </View>
+
       {orderedItems.length === 0 ? (
         <View style={styles.content}>
           <Icon
@@ -124,14 +128,8 @@ const Order = ({navigation}) => {
             <Text style={styles.totalbill}>RS-/ {total}</Text>
           </View>
           <View style={styles.previousOrderContainer}>
-            {/* <View style={styles.duration}>
-              <Text style={styles.date}>{date}</Text>
-              <Text style={styles.time}>- {time}</Text>
-            </View> */}
-
             <View style={styles.colorcontainer}>
               <ScrollView>
-                {/* here */}
                 {orderedItems.map((item, index) => (
                   <View key={index} style={styles.itemsContainer}>
                     <Image source={{uri: item.image}} style={styles.image} />
@@ -151,7 +149,7 @@ const Order = ({navigation}) => {
           <Text style={styles.buttontext}>Complete order</Text>
         </TouchableOpacity>
       )}
-      {showContinueOrderButton && ( // Conditionally render continue button after animation
+      {showContinueOrderButton && (
         <TouchableOpacity style={styles.button} onPress={handleContinueOrder}>
           <Text style={styles.buttontext}>Continue Ordering</Text>
         </TouchableOpacity>
@@ -161,7 +159,7 @@ const Order = ({navigation}) => {
         <View style={styles.modalContainer}>
           <View style={styles.lottieContainer}>
             <LottieView
-              source={require('../assets/success.json')} // Replace with your animation file path
+              source={require('../assets/success.json')}
               autoPlay
               loop={false}
               style={styles.lottieAnimation}
@@ -177,51 +175,29 @@ const Order = ({navigation}) => {
 export default Order;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   padding: 16,
-  //   backgroundColor: '#fff',
-  // },
-  // title: {
-  //   fontSize: 24,
-  //   fontWeight: 'bold',
-  //   marginBottom: 16,
-  // },
-  // orderText: {
-  //   fontSize: 18,
-  //   marginVertical: 8,
-  // },
   colorcontainer: {
-    // backgroundColor: '#ffffff',
-    // height: 300,
-    // elevation: 1,
     marginBottom: 24,
   },
   container: {
     flex: 1,
     backgroundColor: '#f9f9f9',
-    // justifyContent: 'space-between',
+
     padding: 25,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: 17,
   },
   menuIconContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute',
     left: -4.05,
     top: -1.5,
-    // paddingRight: 10,
-    // paddingBottom: 25,
   },
   cartContainer: {
-    position: 'absolute', // To make it left-aligned
+    position: 'absolute',
     right: -5.5,
     top: -0.5,
-    // paddingRight: 10,
-    // paddingBottom: 25,
   },
   badge: {
     position: 'absolute',
@@ -260,7 +236,6 @@ const styles = StyleSheet.create({
   icon: {
     height: 100,
     width: 90,
-    // marginBottom: 10,
   },
   nohistorytext: {
     fontSize: 24,
@@ -293,7 +268,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
 
-  ///////////
   previousOrderContainer: {
     flex: 1,
   },
@@ -337,7 +311,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 15,
-    // alignSelf: 'center',
   },
   ordernumber: {
     color: '#ff5723',
@@ -346,7 +319,6 @@ const styles = StyleSheet.create({
   },
   topcontainer: {
     flexDirection: 'column',
-    // alignItems:"center",
     marginTop: 30,
     marginBottom: 10,
   },
@@ -357,7 +329,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   lottieContainer: {
-    // New style for white background container
     backgroundColor: '#ffffff',
     borderRadius: 10,
     padding: 10,
@@ -373,12 +344,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-{
-  /* <View style={styles.content}>
-        <Image source={require('../assets/cart1.png')} style={styles.icon} />
-        <Text style={styles.nocontentarea}>No orders yet</Text>
-        <Text style={styles.description}>
-          Hit the orange button down below to Create an order
-        </Text>
-      </View> */
-}

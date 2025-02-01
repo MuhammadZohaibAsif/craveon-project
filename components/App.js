@@ -9,14 +9,16 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Home from './Home';
-import {GestureHandlerRootView} from 'react-native-gesture-handler'; /////
-import Icon from 'react-native-vector-icons/AntDesign'; //////
+import {GestureHandlerRootView} from 'react-native-gesture-handler'; 
+import Icon from 'react-native-vector-icons/AntDesign'; 
+import Iconlocation from 'react-native-vector-icons/Entypo'; 
+
 import Icon1 from 'react-native-vector-icons/Fontisto';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 import Cart from './Cart';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'; /////
-import {NavigationContainer, useNavigation} from '@react-navigation/native'; /////
+import {createNativeStackNavigator} from '@react-navigation/native-stack'; 
+import {NavigationContainer, useNavigation} from '@react-navigation/native'; 
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -27,7 +29,7 @@ import SplashScreen from './SplashScreen';
 import ProductDetails from './ProductDetails';
 import {CartProvider} from './CartContext';
 import CheckOut from './CheckOut';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'; /////
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'; 
 import MyProfile from './MyProfile';
 import Order from './Order';
 import DeliveryCheckOut from './DeliveryCheckOut';
@@ -35,6 +37,7 @@ import Favourits from './Favourits';
 import History from './History';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import OrderTracking from './OrderTracking';
 const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -72,16 +75,6 @@ const TabNavigator = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Cart"
-        component={Cart}
-        options={{
-          tabBarLabel: 'Cart',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="shoppingcart" size={size} color={color} />
-          ),
-        }}
-      /> */}
 
       <Tab.Screen
         name="Order"
@@ -90,6 +83,17 @@ const TabNavigator = () => {
           tabBarLabel: 'Orders',
           tabBarIcon: ({color, size}) => (
             <Icon1 name="shopping-bag-1" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={MyProfile}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({color, size}) => (
+            <Icon1 name="person" size={size} color={color} />
           ),
         }}
       />
@@ -108,8 +112,8 @@ const CustomDrawerContent = props => {
         {
           text: 'Sign Out',
           onPress: () => {
-            // Clear user data or token here (if required)
-            navigation.replace('SignIn'); // Navigate to SignIn screen
+        
+            navigation.replace('SignIn'); 
           },
         },
       ],
@@ -119,10 +123,10 @@ const CustomDrawerContent = props => {
 
   return (
     <View style={styles.drawerContent}>
-      {/* Logo and Tagline */}
+
       <View style={styles.logoContainer}>
         <Image
-          source={require('../assets/22.png')} // Replace with your logo's path
+          source={require('../assets/22.png')} 
           style={styles.logo}
         />
         <Text style={styles.tagline}>
@@ -130,11 +134,9 @@ const CustomDrawerContent = props => {
         </Text>
       </View>
 
-      {/* Default Drawer Items */}
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      {/* Sign Out Button */}
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
@@ -147,8 +149,8 @@ const DrawerNavigator = () => {
   useEffect(() => {
     const backAction = () => {
       if (navigation.canGoBack()) {
-        navigation.navigate('TabNavigator'); // Home screen under TabNavigator
-        return true; // Stop default behavior
+        navigation.navigate('TabNavigator');
+        return true; 
       } else {
         Alert.alert(
           'Exit App',
@@ -179,34 +181,7 @@ const DrawerNavigator = () => {
         drawerStyle: {backgroundColor: '#ffffff'},
         drawerActiveTintColor: '#ff5723',
         drawerInactiveTintColor: '#000000',
-      }}
-
-      //  drawerContent={() => (
-      //   <View style={styles.drawerContent}>
-      //     {/* Logo and Tagline */}
-      //     <View style={styles.logoContainer}>
-      //       <Image
-      //         source={require('../assets/logo.png')} // Replace with your logo's path
-      //         style={styles.logo}
-      //       />
-      //       <Text style={styles.tagline}>
-      //         Fuel Your Cravings, Anytime, Anywhere!
-      //       </Text>
-      //     </View>
-
-      //     {/* Drawer Items */}
-      //     <TouchableOpacity onPress={() => navigation.navigate('TabNavigator')}>
-      //       <Text style={styles.drawerItem}>Dashboard</Text>
-      //     </TouchableOpacity>
-      //     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-      //       <Text style={styles.drawerItem}>Profile</Text>
-      //     </TouchableOpacity>
-      //     <TouchableOpacity onPress={() => navigation.navigate('History')}>
-      //       <Text style={styles.drawerItem}>History</Text>
-      //     </TouchableOpacity>
-      //   </View>
-      // )}
-    >
+      }}>
       <Drawer.Screen
         name="TabNavigator"
         component={TabNavigator}
@@ -218,26 +193,7 @@ const DrawerNavigator = () => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Profile"
-        component={MyProfile}
-        options={{
-          drawerLabel: 'Profile',
-          drawerIcon: ({color, size}) => (
-            <Icon1 name="person" size={size} color={color} />
-          ),
-        }}
-      />
-      {/* <Drawer.Screen
-        name="Cart"
-        component={Cart}
-        options={{
-          drawerLabel: 'Cart',
-          drawerIcon: ({color, size}) => (
-            <Icon name="shoppingcart" size={size} color={color} />
-          ),
-        }}
-      /> */}
+      
       <Drawer.Screen
         name="History"
         component={History}
@@ -245,6 +201,16 @@ const DrawerNavigator = () => {
           drawerLabel: 'History',
           drawerIcon: ({color, size}) => (
             <Icon1 name="history" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="OrderTracking"
+        component={OrderTracking}
+        options={{
+          drawerLabel: 'Track your order',
+          drawerIcon: ({color, size}) => (
+            <Iconlocation name="location" size={size} color={color} />
           ),
         }}
       />
@@ -279,6 +245,8 @@ const App = () => {
               component={DeliveryCheckOut}
             />
             <Stack.Screen name="Order" component={Order} />
+            <Stack.Screen name="OrderTracking" component={OrderTracking} />
+
             <Stack.Screen name="Favourits" component={Favourits} />
             <Stack.Screen name="History" component={History} />
             <Stack.Screen name="Cart" component={Cart} />
@@ -302,15 +270,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 150, // Adjust the size of the logo
-    height: 150, // Adjust the size of the logo
+    width: 150, 
+    height: 150, 
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
     alignSelf: 'center',
     borderRadius: 90,
     elevation: 3,
-    marginBottom:10,
-    padding:0
+    marginBottom: 10,
+    padding: 0,
   },
   tagline: {
     marginTop: 10,
@@ -324,7 +292,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   signOutButton: {
-    marginTop: 'auto', // Places it at the bottom
+    marginTop: 'auto', 
     paddingVertical: 15,
     alignItems: 'center',
     backgroundColor: '#ff5723',
